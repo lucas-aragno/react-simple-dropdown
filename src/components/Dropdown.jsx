@@ -22,12 +22,17 @@ class Dropdown extends Component {
   constructor (props) {
     super(props);
 
+    this.trigger = null;
+
     this.state = {
       active: false
     };
 
     this._onWindowClick = this._onWindowClick.bind(this);
     this._onToggleClick = this._onToggleClick.bind(this);
+    this._triggerRef = element => {
+      this.trigger = element;
+    };
   }
 
   isActive () {
@@ -86,7 +91,7 @@ class Dropdown extends Component {
       if (child.type === DropdownTrigger) {
         const originalOnClick = child.props.onClick;
         child = cloneElement(child, {
-          ref: 'trigger',
+          ref: this._triggerRef,
           onClick: (event) => {
             if (!disabled) {
               this._onToggleClick(event);
